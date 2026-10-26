@@ -1,0 +1,11 @@
+"use client";
+import {useEffect,useState} from 'react';
+import {Clock3,X} from 'lucide-react';
+type RecordRental={reference:string;carName:string;status:string;rental:{startedAt:string;endsAt:string;returnedAt:string|null}|null;serverTime:string;token:string};
+const KEY='syrine-my-rentals';
+const format=(ms:number)=>{const s=Math.floor(Math.abs(ms)/1000),d=Math.floor(s/86400),h=Math.floor((s%86400)/3600),m=Math.floor((s%3600)/60);return `${d?d+'j ':''}${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`};
+export function RentalTracker(){const [rentals,setRentals]=useState<RecordRental[]>([]),[tick,setTick]=useState(Date.now());
+ useEffect(()=>{let active=true;const read=async()=>{const tokens:string[]=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}})();const results=await Promise.all(tokens.slice(-10).map(async token=>{try{const r=await fetch('/api/public/track?token='+encodeURIComponent(token),{cache:'no-store'});if(!r.ok)return null;return {...await r.json(),token} as RecordRental}catch{return null}}));if(active)setRentals(results.filter((r):r is RecordRental=>!!r))};void read();const t=setInterval(read,25000),c=setInterval(()=>setTick(Date.now()),1000);const listener=()=>void read();window.addEventListener('syrine-new-booking',listener);return()=>{active=false;clearInterval(t);clearInterval(c);window.removeEventListener('syrine-new-booking',listener)}},[]);
+ function dismiss(token:string){try{const previous=JSON.parse(localStorage.getItem(KEY)||'[]') as string[];localStorage.setItem(KEY,JSON.stringify(previous.filter(x=>x!==token)))}catch{}setRentals(s=>s.filter(x=>x.token!==token))}
+ return rentals.some(r=>r.rental?.startedAt)?<aside className="rental-tracker" aria-label="Suivi de votre location">{rentals.filter(r=>r.rental?.startedAt).map(r=>{const rental=r.rental!;const diff=Date.parse(rental.endsAt)-tick;return <div className="rental-tracker-entry" key={r.token}><Clock3 size={20}/><div><strong>{r.carName}</strong><small>{r.reference} · {r.status==='completed'?'Véhicule rendu':diff<0?'Délai dépassé':'Temps restant'}</small>{!rental.returnedAt&&<b>{diff<0?'+':''}{format(diff)}</b>}</div><button aria-label="Masquer le suivi" onClick={()=>dismiss(r.token)}><X size={18}/></button></div>})}</aside>:null;
+}

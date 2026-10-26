@@ -1,0 +1,28 @@
+name: Syrine standalone release
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: read
+jobs:
+  linux-standalone:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.2'
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm test:api
+      - run: pnpm build:deploy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: syrine-ubuntu-production
+          path: Syrine-Production-*.zip
+          if-no-files-found: error
+          retention-days: 14

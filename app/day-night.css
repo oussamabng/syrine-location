@@ -1,0 +1,135 @@
+/* Syrine day/night: two pixel-aligned frames, two soft light scrims,
+   vector original logomark; imported after the v3 styles. */
+:root {
+  --syrine-logo-ink: #faf9f4;
+  --syrine-logo-accent: var(--gold, #ffd31a);
+  --hero-ease: cubic-bezier(.22,1,.36,1);
+}
+:root[data-theme='light'] {
+  --syrine-logo-ink: #15211f;
+  --syrine-logo-accent: color-mix(in srgb, var(--gold, #ffd31a) 68%, #000);
+}
+.brand .syrine-logo-svg { width: 169px; height: auto; display: block; shape-rendering: geometricPrecision; }
+.brand .syrine-logo-svg path { transition: fill .8s var(--hero-ease); }
+:root[data-theme='light'] .brand,
+:root[data-theme='light'] .site-footer .brand {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+.hero.hero-fullbleed {
+  background: #111b23;
+  transition: background-color .8s ease;
+}
+:root[data-theme='light'] .hero.hero-fullbleed { background: #e7f1f8; }
+.hero-fullbleed .hero-backdrop-image {
+  transition: opacity .95s var(--hero-ease), filter .65s ease,
+    transform .85s var(--hero-ease) !important;
+}
+.hero-fullbleed .hero-backdrop-night.is-loaded { opacity: 1; }
+.hero-fullbleed .hero-backdrop-day.is-loaded { opacity: 0; }
+:root[data-theme='light'] .hero-fullbleed .hero-backdrop-night.is-loaded { opacity: 0; }
+:root[data-theme='light'] .hero-fullbleed .hero-backdrop-day.is-loaded { opacity: 1; }
+/* The legacy single scrim changed instantly when toggling, so we hide it.
+   Our two separate scrims are opacity-animated along with the photographs. */
+.hero.hero-fullbleed::before,
+:root[data-theme='light'] .hero.hero-fullbleed::before,
+html[dir='rtl'] .hero.hero-fullbleed::before,
+html[dir='rtl'][data-theme='light'] .hero.hero-fullbleed::before { background: none; }
+.hero-fullbleed .hero-tone {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity .95s var(--hero-ease);
+}
+.hero-fullbleed .hero-tone-night {
+  opacity: 1;
+  background:
+    linear-gradient(90deg, rgba(6,12,17,.94),rgba(8,16,19,.84) 27%,rgba(9,18,21,.54) 50%,rgba(9,18,21,.03) 85%),
+    linear-gradient(0deg, rgba(5,11,15,.80),transparent 34%);
+}
+.hero-fullbleed .hero-tone-day {
+  opacity: 0;
+  background:
+    linear-gradient(90deg, rgba(253,253,249,.99),rgba(252,252,248,.94) 24%,rgba(251,252,248,.80) 43%,rgba(251,252,248,.24) 68%,transparent 90%),
+    linear-gradient(0deg, rgba(251,251,246,.75),transparent 34%);
+}
+:root[data-theme='light'] .hero-fullbleed .hero-tone-night { opacity: 0; }
+:root[data-theme='light'] .hero-fullbleed .hero-tone-day { opacity: 1; }
+html[dir='rtl'] .hero-fullbleed .hero-tone-night {
+  background:
+    linear-gradient(270deg, rgba(6,12,17,.94),rgba(8,16,19,.84) 27%,rgba(9,18,21,.54) 50%,rgba(9,18,21,.03) 85%),
+    linear-gradient(0deg, rgba(5,11,15,.80),transparent 34%);
+}
+html[dir='rtl'] .hero-fullbleed .hero-tone-day {
+  background:
+    linear-gradient(270deg, rgba(253,253,249,.99),rgba(252,252,248,.94) 24%,rgba(251,252,248,.80) 43%,rgba(251,252,248,.24) 68%,transparent 90%),
+    linear-gradient(0deg, rgba(251,251,246,.75),transparent 34%);
+}
+/* In RTL, keep the scene stationary rather than flipping the car. Only the
+   overlay direction and the text flow need to change. */
+html[dir='rtl'] .hero-fullbleed .hero-backdrop-image.is-loaded,
+html[dir='rtl'] .hero-fullbleed .hero-backdrop-image:not(.is-loaded) {
+  transform: none;
+}
+/* Sunny light treatment: dark editorial ink on warm daylight, rather than
+   white text atop a nighttime photo as it was before this patch. */
+:root[data-theme='light'] .hero-fullbleed h1 {
+  color: #172421;
+  text-shadow: none;
+  transition: color .5s ease;
+}
+:root[data-theme='light'] .hero-fullbleed h1 em { color: color-mix(in srgb, var(--gold, #ffd31a) 62%, #000); }
+:root[data-theme='light'] .hero-fullbleed h1 em::after { background: color-mix(in srgb, var(--gold, #ffd31a) 90%, #000); }
+:root[data-theme='light'] .hero-fullbleed .hero-overline {
+  background: rgba(255,255,252,.8);
+  color: #41504b;
+  border-color: rgba(165,145,82,.4);
+}
+:root[data-theme='light'] .hero-fullbleed .hero-copy > p { color: #42534f; }
+:root[data-theme='light'] .hero-fullbleed .hero-copy > p strong { color: #192923; }
+:root[data-theme='light'] .hero-fullbleed .button-hero-outline {
+  color: #263631;
+  background: rgba(255,255,255,.84);
+  border-color: rgba(64,80,76,.26);
+  box-shadow: 0 10px 30px rgba(42,55,51,.08);
+}
+:root[data-theme='light'] .hero-fullbleed .button-hero-outline:hover {
+  background: #fff;
+  color: #17241f;
+  border-color: #ba9219;
+}
+:root[data-theme='light'] .hero-fullbleed .hero-proof strong { color: #1e322b; }
+:root[data-theme='light'] .hero-fullbleed .hero-proof small { color: #54665d; }
+:root[data-theme='light'] .hero-fullbleed .hero-proof-sep { background: rgba(35,55,46,.22); }
+:root[data-theme='light'] .hero-fullbleed .review-stars { color: #b68b00; }
+:root[data-theme='light'] .hero-fullbleed .hero-airport-note {
+  color: #162420;
+  background: rgba(255,255,252,.88);
+  border-color: rgba(181,157,75,.39);
+  box-shadow: 0 17px 55px rgba(36,61,56,.15);
+}
+:root[data-theme='light'] .hero-fullbleed .hero-airport-note small { color: #55655c; }
+:root[data-theme='light'] .hero-fullbleed .hero-art-caption {
+  color: #364e49;
+  text-shadow: 0 1px 9px #fff;
+}
+@media (max-width: 650px) {
+  /* Portrait devices need a lighter upper half behind the copy. */
+  .hero-fullbleed .hero-tone-night,
+  html[dir='rtl'] .hero-fullbleed .hero-tone-night {
+    background: linear-gradient(180deg,rgba(5,11,13,.9),rgba(5,11,13,.8) 29%,rgba(7,13,14,.56) 56%,rgba(5,11,13,.92));
+  }
+  .hero-fullbleed .hero-tone-day,
+  html[dir='rtl'] .hero-fullbleed .hero-tone-day {
+    background: linear-gradient(180deg,rgba(253,253,248,.99),rgba(253,253,248,.94) 33%,rgba(253,253,248,.72) 58%,rgba(248,249,245,.46) 79%,rgba(248,249,245,.93));
+  }
+  :root[data-theme='light'] .hero-fullbleed .hero-backdrop-image { object-position: 72% center; }
+  :root[data-theme='light'] .hero-fullbleed .hero-art-caption { bottom: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-fullbleed .hero-backdrop-image,
+  .hero-fullbleed .hero-tone,
+  .brand .syrine-logo-svg path { transition: none !important; }
+}

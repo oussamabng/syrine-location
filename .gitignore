@@ -1,0 +1,21 @@
+node_modules
+.next
+out
+.env*
+!.env.example
+.DS_Store
+*.log
+
+# Never commit live booking data or admin secrets
+data/*
+!data/.gitkeep
+
+# Database and upload data must remain outside releases
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+public/uploads/
+*.bak
+
+.syrine-release/
+Syrine-Production-*.zip
