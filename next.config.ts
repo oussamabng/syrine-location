@@ -3,6 +3,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "standalone",
   serverExternalPackages: ["drizzle-orm"],
+  // The server reads/writes data dynamically (SQLite, uploads), which makes the bundler trace the whole
+  // project. Keep private data and non-runtime files out of the standalone output.
+  outputFileTracingExcludes: {
+    "*": ["./data/**", "./uploads/**", "./public/uploads/**", "./.env*", "./**/*.sqlite*", "./**/*.bak", "./.git/**", "./.github/**", "./deploy/**", "./README.md", "./*.zip", "./.syrine-release/**"],
+  },
   async headers(){return [{source:'/:path*',headers:[
     {key:'X-Content-Type-Options',value:'nosniff'},
     {key:'X-Frame-Options',value:'DENY'},
