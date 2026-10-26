@@ -1,0 +1,59 @@
+/* Chawki Auto proposal — practical information and contact pages.
+   Styles are deliberately scoped to these pages and support both themes. */
+.info-page-top{padding-top:34px}
+.info-disclaimer{display:flex;gap:15px;align-items:flex-start;padding:18px 22px;border:1px solid rgba(218,72,84,.28);background:rgba(218,72,84,.065);border-radius:15px;color:var(--muted)}
+.info-disclaimer>svg{color:var(--gold);flex:none;margin-top:2px}
+.info-disclaimer p{font-size:13px;line-height:1.75;margin:0;max-width:1010px}
+.info-disclaimer strong{color:var(--text)}
+.info-page-body{padding-top:60px}
+.info-page-body .conditions-main .section-heading h2{margin-bottom:14px}
+.info-page-body .conditions-main .section-heading p{max-width:690px}
+.info-page-body .conditions-group{transition:border-color .2s ease,transform .2s ease}
+.info-page-body .conditions-group:hover{border-color:rgba(218,72,84,.5);transform:translateY(-1px)}
+.info-step-icon{display:grid;place-items:center;width:43px;height:43px;flex:none;border:1px solid rgba(218,72,84,.23);border-radius:12px;background:rgba(218,72,84,.09);color:var(--gold)}
+.info-page-body .conditions-group-head>span{min-width:29px}
+.info-actions{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.info-actions .button{display:flex;width:100%}
+.info-side-link{margin-top:20px;display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:750;color:var(--gold)}
+.info-side-link:hover{gap:12px}
+.info-page-body .faq-area .eyebrow{margin-bottom:14px}
+.info-bottom-cta{border-top:1px solid var(--border);background:linear-gradient(110deg,rgba(218,72,84,.12),rgba(218,72,84,.015) 60%);padding:48px 0 54px}
+.info-bottom-inner{display:flex;justify-content:space-between;align-items:center;gap:25px}
+.info-bottom-inner h2{font-size:clamp(25px,3vw,36px);margin:8px 0}
+.info-bottom-inner p{font-size:13px;line-height:1.6;color:var(--muted);margin:0}
+.info-bottom-inner .button{flex:none}
+.info-contact-cards{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:27px}
+.info-contact-lead{padding:35px}
+.info-contact-lead h2{max-width:570px}
+.info-request-items{display:grid;gap:11px;margin:28px 0}
+.info-request-row{display:flex;align-items:center;gap:18px;padding:18px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.025)}
+.info-request-icon{flex:none;width:49px;height:49px;display:grid;place-items:center;border-radius:12px;border:1px solid rgba(218,72,84,.25);background:rgba(218,72,84,.1);color:var(--gold)}
+.info-request-row>div{min-width:0;flex:1}
+.info-request-row small{font-size:10px;letter-spacing:.13em;font-weight:800;color:var(--gold)}
+.info-request-row h3{font-size:18px;margin:3px 0 4px}
+.info-request-row p{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
+.info-request-check{flex:none;color:var(--gold);opacity:.75}
+.info-contact-buttons{display:flex;flex-wrap:wrap;gap:12px}
+.info-contact-buttons .button{white-space:normal}
+.info-contact-footnote{display:flex;align-items:flex-start;gap:8px;margin:20px 0 0!important;font-size:11px!important;color:var(--muted)}
+.info-contact-footnote svg{flex:none;margin-top:2px;color:var(--gold)}
+.info-contact-help{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(120deg,rgba(218,72,84,.09),rgba(255,255,255,.025));border:1px solid var(--border);border-radius:19px;margin-top:32px;padding:27px 31px}
+.info-contact-help h2{font-size:clamp(22px,2.7vw,32px);margin:10px 0}
+.info-contact-help p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+.info-contact-help .button{flex:none}
+.info-contact-disclosure{display:flex;align-items:flex-start;gap:10px;margin:26px 0 0;font-size:11px;line-height:1.65;color:var(--muted)}
+.info-contact-disclosure svg{color:var(--gold);flex:none;margin-top:1px}
+:root[data-theme='light'] .info-disclaimer{background:#fff1f2;color:#70464b;border-color:#edc8cd}
+:root[data-theme='light'] .info-disclaimer strong{color:#6e2730}
+:root[data-theme='light'] .info-step-icon,
+:root[data-theme='light'] .info-request-icon{background:#fff1f2;border-color:#efd1d6;color:#b33141}
+:root[data-theme='light'] .info-request-row{background:#fafafa;border-color:#e1e3e0}
+:root[data-theme='light'] .info-request-row p,
+:root[data-theme='light'] .info-contact-help p,
+:root[data-theme='light'] .info-bottom-inner p,
+:root[data-theme='light'] .info-contact-footnote,
+:root[data-theme='light'] .info-contact-disclosure{color:#647069}
+:root[data-theme='light'] .info-contact-help{background:#fff7f7;border-color:#eee0e1}
+:root[data-theme='light'] .info-bottom-cta{background:#faf1f2;border-color:#eadce0}
+@media(max-width:900px){.info-bottom-inner,.info-contact-help{align-items:flex-start;flex-direction:column}.info-page-body .conditions-sidebar{position:static}}
+@media(max-width:650px){.info-page-top{padding-top:19px}.info-disclaimer{padding:15px;gap:10px}.info-disclaimer p{font-size:11px}.info-page-body{padding-top:34px}.info-step-icon{width:36px;height:36px}.info-page-body .conditions-group-head{gap:9px}.info-page-body .conditions-group-head>span{font-size:14px;min-width:24px}.info-page-body .conditions-group-head h3{font-size:16px}.info-contact-lead{padding:22px}.info-request-row{padding:14px;gap:11px}.info-request-icon{width:41px;height:41px}.info-request-row h3{font-size:15px}.info-request-check{width:15px}.info-contact-buttons{flex-direction:column}.info-contact-buttons .button{width:100%}.info-contact-help{padding:21px}.info-contact-help .button,.info-bottom-inner .button{width:100%}.info-bottom-cta{padding:33px 0}.info-bottom-inner{align-items:stretch}.info-page-body .faq-area{margin-top:48px}}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./info-pages.css";
 import "./theme.css";
 import "./i18n.css";
 import "./hero.css";
