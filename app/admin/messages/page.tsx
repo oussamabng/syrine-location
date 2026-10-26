@@ -1,0 +1,12 @@
+"use client";
+
+import {ArrowUpRight} from "lucide-react";
+import {Avatar,SearchBox,date} from "../admin-ui";
+import {DeleteMessage} from "../extensions";
+import {CrmEmpty} from "../crm-controls";
+import {useAdmin} from "../admin-context";
+
+export default function Page(){
+ const {user,busy,search,setSearch,filter,setFilter,load,changeMessage,unread,filteredMessages}=useAdmin();
+ return <section className="crm-panel"><div className="crm-list-toolbar"><div className="crm-tabs"><button className={filter==="all"?"active":""} onClick={()=>setFilter("all")}>Tous</button><button className={filter==="unread"?"active":""} onClick={()=>setFilter("unread")}>Non lus {unread>0&&<b>{unread}</b>}</button><button className={filter==="read"?"active":""} onClick={()=>setFilter("read")}>Lus</button></div><SearchBox value={search} change={setSearch} placeholder="Rechercher un message..."/></div><div className="crm-messages">{filteredMessages.map(m=><article key={m.id} className={`crm-message ${m.status!=="read"?"unread":""}`}><div className="crm-message-head"><Avatar name={m.fullName}/><div><b>{m.fullName}</b><small>{m.reply} · {date(m.createdAt)}</small></div><span className="crm-chip">{m.status==="read"?"Lu":"Non lu"}</span></div><h3>{m.subject||"Sans objet"}</h3><p>{m.message}</p><div className="crm-message-actions"><a href={m.reply.includes('@')?`mailto:${m.reply}`:`tel:${m.reply}`} className="crm-button crm-button-light">Répondre <ArrowUpRight size={15}/></a><button className="crm-button crm-button-light" disabled={busy} onClick={()=>changeMessage(m,m.status==="read"?"unread":"read")}>{m.status==="read"?"Marquer non lu":"Marquer comme lu"}</button><DeleteMessage id={m.id} onUpdated={()=>load(user?.role)}/></div></article>)}{!filteredMessages.length&&<div className="crm-messages-empty"><CrmEmpty title={search?"Aucun résultat":filter==="unread"?"Tout est à jour":filter==="read"?"Aucun message lu":"Aucun message pour le moment"} description={search?`Aucun message ne correspond à « ${search} ».`:filter==="unread"?"Vous avez lu tous vos messages.":filter==="read"?"Les messages que vous marquez comme lus apparaîtront ici.":"Les messages envoyés depuis le formulaire de contact de votre site apparaîtront ici."} action={(search||filter!=="all")?<button type="button" className="crm-button crm-button-outline" onClick={()=>{setSearch("");setFilter("all")}}>Afficher tous les messages</button>:undefined}/></div>}</div></section>;
+}

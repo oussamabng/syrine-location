@@ -1,0 +1,3 @@
+import type {Metadata} from "next";
+export const metadata:Metadata={title:"Conditions à confirmer — Chawki Auto (concept)",robots:{index:false}};
+export default function ConditionsPage(){return <section className="container-wide section-space"><div className="demo-notice"><strong>Proposition de refonte non officielle.</strong> Les conditions, tarifs, cautions, assurances, permis et modes de livraison ne sont pas encore définis avec Chawki Auto. Aucune réservation n’est possible sur cette maquette. Les conditions légales seront ajoutées après validation du propriétaire.</div><p style={{marginTop:24}}><a className="button button-outline" href="/">Retour à l’accueil</a></p></section>}

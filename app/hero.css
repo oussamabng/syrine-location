@@ -1,0 +1,144 @@
+/* Full-height, editorial airport hero. Isolated here so the rest of the
+ * site's light/dark and RTL styling remains unchanged. */
+.hero.hero-fullbleed {
+  --hero-header-height: 84px;
+  min-height: calc(100svh - var(--hero-header-height));
+  min-height: calc(100dvh - var(--hero-header-height));
+  background: #101714;
+  isolation: isolate;
+  overflow: hidden;
+}
+.hero.hero-fullbleed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(6, 12, 14, .94) 0%, rgba(7, 13, 15, .86) 24%, rgba(8, 13, 15, .64) 46%, rgba(9, 15, 16, .16) 79%),
+    linear-gradient(0deg, rgba(5, 11, 12, .85), transparent 29%, rgba(8, 14, 16, .06) 68%);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero.hero-fullbleed::after { background: linear-gradient(90deg, transparent, rgba(218, 72, 84, .37), transparent); z-index: 4; }
+.hero-fullbleed .hero-backdrop { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero-fullbleed .hero-backdrop-image { width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+.hero-fullbleed .hero-layout {
+  min-height: calc(100svh - var(--hero-header-height));
+  min-height: calc(100dvh - var(--hero-header-height));
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(55px, 9vh, 115px);
+  padding-bottom: clamp(112px, 15vh, 178px);
+}
+.hero-fullbleed .hero-copy { width: min(680px, 60%); padding: 0; }
+.hero-fullbleed .hero-overline { background: rgba(18, 24, 23, .70); color: #f7f5e9; border: 1px solid rgba(255, 215, 75, .42); backdrop-filter: blur(12px); }
+.hero-fullbleed h1 { font-size: clamp(55px, 6.1vw, 94px); max-width: 720px; color: #fff; text-shadow: 0 8px 35px rgba(0, 0, 0, .32); }
+.hero-fullbleed h1 em, :root[data-theme='light'] .hero-fullbleed h1 em { color: var(--gold, #DA4854); }
+.hero-fullbleed .hero-copy > p, :root[data-theme='light'] .hero-fullbleed .hero-copy > p { color: #e1e5dd; max-width: 520px; text-wrap: pretty; }
+.hero-fullbleed .hero-copy > p strong, :root[data-theme='light'] .hero-fullbleed .hero-copy > p strong { color: #fff; }
+.hero-fullbleed .hero-actions { gap: 12px; }
+.hero-fullbleed .button-hero-outline {
+  color: #fff; background: rgba(13, 20, 20, .44);
+  border: 1px solid rgba(255, 255, 255, .43);
+  backdrop-filter: blur(12px);
+}
+.hero-fullbleed .button-hero-outline:hover { border-color: var(--gold, #DA4854); background: rgba(15, 22, 21, .85); }
+.hero-fullbleed .hero-proof { margin-top: clamp(30px, 7vh, 85px); }
+.hero-fullbleed .hero-proof strong, :root[data-theme='light'] .hero-fullbleed .hero-proof strong { color: #fff; }
+.hero-fullbleed .hero-proof small, :root[data-theme='light'] .hero-fullbleed .hero-proof small { color: #cbd1cc; }
+.hero-fullbleed .hero-proof-sep { background: rgba(255,255,255,.30); }
+.hero-fullbleed .review-stars, :root[data-theme='light'] .hero-fullbleed .review-stars { color: var(--gold, #DA4854); }
+.hero-airport-note {
+  position: absolute;
+  right: 0;
+  bottom: clamp(110px, 13vh, 160px);
+  display: flex; align-items: center; gap: 14px;
+  width: min(350px, 36%);
+  color: #fff; background: rgba(11, 18, 19, .74);
+  border: 1px solid rgba(255, 216, 64, .36);
+  border-radius: 17px; padding: 15px 17px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 50px rgba(0,0,0,.24);
+}
+.hero-airport-note-icon { flex: none; display: grid; place-items: center; width: 47px; height: 47px; border-radius: 12px; background: var(--gold, #DA4854); color: #141610; }
+.hero-airport-note > span:last-child { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.hero-airport-note strong { font-size: 13px; line-height: 1.35; }
+.hero-airport-note small { font-size: 11px; color: #d3d6ce; line-height: 1.4; }
+.hero-art-caption { position: absolute; inset-inline-end: 0; bottom: 67px; font-size: 10px; letter-spacing: .03em; color: rgba(242, 244, 237, .72); }
+
+/* The hero remains photographic in both themes; light mode has a lighter image
+ * but keeps a dark enough scrim to maintain readable white text. */
+:root[data-theme='light'] .hero.hero-fullbleed { background: #172027; }
+:root[data-theme='light'] .hero.hero-fullbleed::before {
+  background:
+    linear-gradient(90deg, rgba(9, 19, 22, .91) 0%, rgba(10, 19, 21, .78) 29%, rgba(13, 22, 23, .53) 51%, rgba(14, 23, 23, .09) 83%),
+    linear-gradient(0deg, rgba(6, 13, 15, .76), transparent 37%);
+}
+:root[data-theme='light'] .hero-fullbleed .hero-overline { background: rgba(20, 27, 25, .72); color: #fff; border-color: rgba(255, 218, 84, .5); }
+:root[data-theme='light'] .hero-fullbleed .button-hero-outline { color: #fff; background: rgba(11, 20, 20, .53); border-color: rgba(255,255,255,.45); }
+:root[data-theme='light'] .hero-fullbleed .hero-art-caption { color: #e8eee7; }
+
+/* Arabic keeps its reading direction without relocating the photo away from
+ * the person/vehicle subject. */
+html[dir='rtl'] .hero-fullbleed .hero-layout { direction: rtl; }
+html[dir='rtl'] .hero-fullbleed .hero-airport-note { right: auto; left: 0; }
+html[dir='rtl'] .hero.hero-fullbleed::before,
+html[dir='rtl'][data-theme='light'] .hero.hero-fullbleed::before {
+  background:
+    linear-gradient(270deg, rgba(6, 12, 14, .95) 0%, rgba(7, 13, 15, .88) 30%, rgba(8, 13, 15, .66) 55%, rgba(9, 15, 16, .13) 85%),
+    linear-gradient(0deg, rgba(5, 11, 12, .84), transparent 36%);
+}
+html[dir='rtl'] .hero-fullbleed .hero-backdrop-image { transform: scaleX(-1); }
+
+@media (max-width: 1100px) {
+  .hero-fullbleed .hero-copy { width: min(625px, 74%); }
+  .hero-airport-note { width: min(305px, 32%); }
+  .hero-fullbleed h1 { font-size: clamp(54px, 7vw, 76px); }
+}
+@media (max-width: 850px) {
+  .hero-fullbleed .hero-copy { width: min(590px, 92%); }
+  .hero-fullbleed .hero-layout { padding-top: 74px; padding-bottom: 150px; }
+  .hero-fullbleed .hero-backdrop-image { object-position: 60% center; }
+  .hero-airport-note { right: 0; bottom: 70px; width: min(330px, 58%); }
+}
+@media (max-width: 650px) {
+  .hero.hero-fullbleed { --hero-header-height: 68px; min-height: calc(100svh - var(--hero-header-height)); min-height: calc(100dvh - var(--hero-header-height)); }
+  .hero-fullbleed .hero-layout { min-height: inherit; width: calc(100% - 40px); padding: 58px 0 75px; align-items: flex-start; }
+  .hero-fullbleed .hero-copy { width: 100%; max-width: 100%; }
+  .hero-fullbleed .hero-backdrop-image { object-position: 65% center; }
+  .hero.hero-fullbleed::before,
+  :root[data-theme='light'] .hero.hero-fullbleed::before {
+    background: linear-gradient(180deg, rgba(5,11,13,.89) 0%, rgba(5,11,13,.79) 27%, rgba(7,13,14,.51) 53%, rgba(5,11,13,.77) 78%, rgba(5,11,13,.96) 100%);
+  }
+  .hero-fullbleed .hero-overline { font-size: 10px; max-width: 100%; letter-spacing: .07em; line-height: 1.4; }
+  .hero-fullbleed h1 { font-size: clamp(46px, 11vw, 65px); line-height: 1.09; margin: 22px 0 18px; max-width: 550px; }
+  .hero-fullbleed .hero-copy > p { font-size: 14px; line-height: 1.7; margin-bottom: 23px; max-width: 450px; }
+  .hero-fullbleed .hero-actions { gap: 9px; }
+  .hero-fullbleed .hero-actions .button { min-height: 48px; padding: 12px 15px; font-size: 11px; }
+  .hero-fullbleed .hero-proof { margin-top: 26px; gap: 13px; }
+  .hero-airport-note { display: none; }
+  .hero-art-caption { inset-inline-end: 0; bottom: 65px; font-size: 9px; }
+  .floating-search { margin-top: 0; }
+  html[dir='rtl'] .hero.hero-fullbleed::before,
+  html[dir='rtl'][data-theme='light'] .hero.hero-fullbleed::before {
+    background: linear-gradient(180deg, rgba(5,11,13,.89) 0%, rgba(5,11,13,.79) 27%, rgba(7,13,14,.51) 53%, rgba(5,11,13,.77) 78%, rgba(5,11,13,.96) 100%);
+  }
+}
+@media (max-width: 380px) {
+  .hero.hero-fullbleed { min-height: calc(100dvh - 68px); }
+  .hero-fullbleed .hero-layout { width: calc(100% - 30px); padding-top: 48px; }
+  .hero-fullbleed h1 { font-size: clamp(42px, 11.8vw, 50px); }
+  .hero-fullbleed .hero-actions .button { width: auto; }
+  .hero-fullbleed .hero-proof { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-fullbleed * { scroll-behavior: auto; } }
+
+/* Short viewport screens can grow naturally rather than clipping copy. */
+@media (max-height: 700px) and (max-width: 650px) {
+  .hero-fullbleed .hero-layout { padding-top: 37px; padding-bottom: 55px; }
+  .hero-fullbleed .hero-proof { margin-top: 17px; }
+  .hero-fullbleed h1 { margin-top: 17px; margin-bottom: 14px; }
+  .hero-fullbleed .hero-copy > p { margin-bottom: 16px; }
+  .hero-art-caption { bottom: 17px; }
+}
