@@ -3,7 +3,25 @@ import assert from 'node:assert/strict'
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { makeServer } from './index.mjs'
+import { makeServer, makeHandler } from './index.mjs'
+import { Readable } from 'node:stream'
+
+
+test('in-process request handler serves API without an HTTP ServerResponse', async () => {
+  const dir=mkdtempSync(join(tmpdir(),'syrine-inprocess-'))
+  try {
+    const handler=makeHandler({dataPath:join(dir,'db.json'),password:'local-handler-test-secret'})
+    const req=Readable.from([])
+    req.url='/api/health';req.method='GET';req.headers={};req.socket={remoteAddress:'127.0.0.1'}
+    const result=await new Promise((resolve,reject)=>{
+      let status=200
+      const res={writeHead(code){status=code;return this},end(body){resolve({status,body:String(body)})}}
+      Promise.resolve(handler(req,res)).catch(reject)
+    })
+    assert.equal(result.status,200)
+    assert.deepEqual(JSON.parse(result.body),{ok:true})
+  } finally {rmSync(dir,{recursive:true,force:true})}
+})
 
 test('public catalogue → booking → protected owner review → status update → persisted JSON',async()=>{
   const dir=mkdtempSync(join(tmpdir(),'syrine-test-'))

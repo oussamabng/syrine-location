@@ -1,7 +1,7 @@
 /** Bridges a Next.js route handler to the existing Syrine HTTP controller in-process.
  * No second HTTP server or localhost proxy is started. */
 import {Readable} from 'node:stream'
-import {makeServer} from './index.mjs'
+import {makeHandler} from './index.mjs'
 import {openStore} from './db/storage.mjs'
 import {randomBytes} from 'node:crypto'
 import {existsSync,readFileSync,mkdirSync,writeFileSync} from 'node:fs'
@@ -17,7 +17,7 @@ function initialPassword() {
   return readFileSync(path,'utf8').trim()
 }
 export function controllerServer(){
-  controller ??= makeServer({store:openStore(),password:initialPassword()})
+  controller ??= makeHandler({store:openStore(),password:initialPassword()})
   return controller
 }
 export async function handleWebRequest(webRequest,path){
@@ -35,6 +35,14 @@ export async function handleWebRequest(webRequest,path){
       writeHead(code,responseHeaders={}){status=code;headers=responseHeaders;return this},
       end(body){if(ended)return;ended=true;clearTimeout(timer);resolve(new Response(body??null,{status,headers}))}
     }
-    try{controllerServer().emit('request',req,res)}catch(error){clearTimeout(timer);reject(error)}
+    // The legacy controller is an async request handler. Calling it directly
+    // avoids Node/Next.js HTTP instrumentation expecting res.once(), etc.
+    try {
+      Promise.resolve(controllerServer()(req,res)).catch(error=>{
+        if(!ended){ended=true;clearTimeout(timer);reject(error)}
+      })
+    } catch(error) {
+      if(!ended){ended=true;clearTimeout(timer);reject(error)}
+    }
   })
 }

@@ -88,7 +88,9 @@ function carFields(value, fallback = {}) {
   }
 }
 
-export function makeServer({dataPath=resolve(ROOT,'data/db.json'), store=null, password, username=process.env.ADMIN_USERNAME||'admin', publicPath=DIST}={}) {
+// Expose the in-process controller directly to Next.js without emitting a fake
+// IncomingMessage/ServerResponse pair on an actual Node HTTP server.
+export function makeHandler({dataPath=resolve(ROOT,'data/db.json'), store=null, password, username=process.env.ADMIN_USERNAME||'admin', publicPath=DIST}={}) {
   let db
   if (store) {
     db = store.initialized ? store.read() : defaultDB()
@@ -127,7 +129,7 @@ export function makeServer({dataPath=resolve(ROOT,'data/db.json'), store=null, p
     return user || null
   }
   const cookieHeader=(token, maxAge)=>`syrine_session=${token}; HttpOnly; SameSite=Strict; Path=/api; Max-Age=${maxAge}${process.env.NODE_ENV==='production'?'; Secure':''}`
-  return http.createServer(async (req,res)=> {
+  return async (req,res)=> {
     try {
       const method=req.method||'GET'
       const url=new URL(req.url||'/', 'http://localhost')
@@ -317,7 +319,12 @@ export function makeServer({dataPath=resolve(ROOT,'data/db.json'), store=null, p
       res.writeHead(200,{'Content-Type':MIME[extname(filepath)]||'application/octet-stream','X-Content-Type-Options':'nosniff'})
       res.end(method==='HEAD'?undefined:file)
     }catch(e){error(res,e.status||500,e.status?e.message:'Erreur interne du serveur.');if(!e.status) console.error(e)}
-  })
+  }
+}
+
+// Keep the legacy standalone HTTP server for existing tests and tools.
+export function makeServer(options={}) {
+  return http.createServer(makeHandler(options))
 }
 
 if(process.argv[1] && resolve(process.argv[1])===fileURLToPath(import.meta.url)) {
